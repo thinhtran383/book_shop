@@ -8,6 +8,7 @@ import com.bookshopweb.dto.SuccessMessage;
 import com.bookshopweb.service.CartService;
 import com.bookshopweb.service.OrderItemService;
 import com.bookshopweb.service.OrderService;
+import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.JsonUtils;
 import com.bookshopweb.utils.Protector;
 
@@ -26,6 +27,7 @@ public class CartServlet extends HttpServlet {
     private final OrderService orderService = new OrderService();
     private final OrderItemService orderItemService = new OrderItemService();
     private final CartService cartService = new CartService();
+    private final ProductService productService = new ProductService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +63,7 @@ public class CartServlet extends HttpServlet {
                 new ErrorMessage(404, errorMessage),
                 HttpServletResponse.SC_NOT_FOUND);
 
+
         if (orderId > 0L) {
             List<OrderItem> orderItems = orderRequest.getOrderItems().stream().map(orderItemRequest -> new OrderItem(
                     0L,
@@ -72,6 +75,21 @@ public class CartServlet extends HttpServlet {
                     LocalDateTime.now(),
                     null
             )).collect(Collectors.toList());
+
+            boolean outOfStock = orderItems.stream().anyMatch(orderItem ->
+                    productService.getQuantityById(orderItem.getProductId()) == 0
+            );
+
+
+            // update totalBuy
+            orderItems.forEach(orderItem -> {
+                productService.increaseTotalBuy(orderItem.getProductId(), orderItem.getQuantity());
+            });
+
+            // decrease quantity
+            orderItems.forEach(orderItem -> {
+                productService.decreaseQuantity(orderItem.getProductId(), orderItem.getQuantity());
+            });
 
             Protector.of(() -> {
                         orderItemService.bulkInsert(orderItems);

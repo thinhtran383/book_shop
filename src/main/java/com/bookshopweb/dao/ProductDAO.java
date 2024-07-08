@@ -112,4 +112,14 @@ public interface ProductDAO extends DAO<Product> {
 
     @SqlQuery("SELECT COUNT(id) FROM product WHERE name LIKE CONCAT('%', :query, '%')")
     int countByQuery(@Bind("query") String query);
+
+    @SqlUpdate("UPDATE product SET totalBuy = totalBuy + :quantity WHERE id = :id")
+    void increaseTotalBuy(@Bind("id") long id, @Bind("quantity") int quantity);
+
+    @SqlUpdate("UPDATE product SET quantity = quantity - :quantity WHERE id = :id AND quantity >= :quantity")
+    void decreaseQuantity(@Bind("id") long id, @Bind("quantity") int quantity);
+
+    @SqlQuery("SELECT quantity FROM product WHERE id = :id")
+    int getQuantityById(@Bind("id") long id);
+
 }

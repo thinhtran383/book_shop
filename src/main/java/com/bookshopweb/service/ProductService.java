@@ -72,6 +72,11 @@ public class ProductService extends Service<Product, ProductDAO> implements Prod
         return jdbi.withExtension(ProductDAO.class, dao -> dao.countByQuery(query));
     }
 
+    @Override
+    public void increaseTotalBuy(long id, int quantity) {
+        jdbi.useExtension(ProductDAO.class, dao -> dao.increaseTotalBuy(id, quantity));
+    }
+
     public String getFirst(String twopartString) {
         return twopartString.contains("-") ? twopartString.split("-")[0] : "";
     }
@@ -105,8 +110,18 @@ public class ProductService extends Service<Product, ProductDAO> implements Prod
         ).collect(Collectors.joining(" OR "));
         return "(" + priceRangeConditions + ")";
     }
+    @Override
+    public void decreaseQuantity(long id, int quantity) {
+        jdbi.useExtension(ProductDAO.class, dao -> dao.decreaseQuantity(id, quantity));
+    }
 
     public String createFiltersQuery(List<String> filters) {
         return String.join(" AND ", filters);
     }
+
+    @Override
+    public int getQuantityById(long id) {
+        return jdbi.withExtension(ProductDAO.class, dao -> dao.getQuantityById(id));
+    }
+
 }
