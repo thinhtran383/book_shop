@@ -222,7 +222,7 @@ const state = {
       createToast(toastComponent(FAILED_OPERATION_MESSAGE, "danger"));
     }
   },
-  deleteCartItem: async (currentCartItem) => {
+    deleteCartItem: async (currentCartItem) => {
     if (confirm("Bạn có muốn xóa?")) {
       const [status] = await _fetchDeleteCartItem(currentCartItem.id);
       if (status === 200) {

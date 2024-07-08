@@ -82,7 +82,7 @@ public class SignupServlet extends HttpServlet {
         // Tính tổng các vi phạm sau kiểm tra (nếu có)
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
         String successMessage = "Đã đăng ký thành công!";
-        String errorMessage = "Đã có lỗi truy vấn!";
+        String errorMessage = "Số điện thoại hoặc email đã tồn tại";
 
         // Khi không có vi phạm trong kiểm tra các parameter
         if (sumOfViolations == 0) {

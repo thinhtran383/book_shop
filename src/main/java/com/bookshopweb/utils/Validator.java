@@ -110,4 +110,6 @@ public class Validator<T> {
         violation.ifPresent(violations::add);
         return this;
     }
+
+    //regex: bieu thuc chinh quy
 }

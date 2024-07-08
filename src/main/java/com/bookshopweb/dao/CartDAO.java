@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RegisterBeanMapper(Cart.class)
-public interface CartDAO extends DAO<Cart> {
+public interface CartDAO extends DAO<Cart> { // chua cac phuong thuc truy van den csdl
     @Override
     @SqlUpdate("INSERT INTO cart VALUES (default, :userId, :createdAt, :updatedAt)")
     @GetGeneratedKeys("id")

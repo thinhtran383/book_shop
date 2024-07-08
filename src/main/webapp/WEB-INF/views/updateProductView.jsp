@@ -322,7 +322,7 @@
             </div>
           </c:if>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="display: none">
           <label for="product-startsAt" class="form-label">Ngày bắt đầu khuyến mãi</label>
           <input type="datetime-local"
                  class="form-control ${not empty requestScope.violations.startsAtViolations
@@ -340,7 +340,7 @@
             </div>
           </c:if>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="display: none">
           <label for="product-endsAt" class="form-label">Ngày kết thúc khuyến mãi</label>
           <input type="datetime-local"
                  class="form-control ${not empty requestScope.violations.endsAtViolations
